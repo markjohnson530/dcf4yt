@@ -1,0 +1,107 @@
+<!DOCTYPE html style="height: 100%; width: 100%;">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noindex”>
+</head>
+
+
+<h2 style="font-weight: normal; font-family: Arial;"><span style="">123456789</span>.pixel4jesus.com <a href="https://pixel4jesus.com"> <img style="vertical-align:middle; height: 64px;" src="https://pixel4jesus.com/1.png"></a>
+<br><hr style="float: left; width: 351px;"></h2> 
+
+<br style="line-height: 0px;"> <p id="currentnumber"></p>
+
+attempts: <b><span id="attempts">0</span></b><br>
+<br>
+<h1>highest number generated:<br><span style="padding-left: 20px; font-weight: normal; font-size: 25px;" id="highest">0</span>
+<br><span style="font-weight: normal; font-size: 15px;">chance to generate higher: <b><span id="chancetoGH">-</span></b>%</span>
+</h1>
+
+
+<h1>lowest number generated:<br><span style="padding-left: 20px; font-weight: normal; font-size: 25px;"><span id="lowest">0</span>
+<br><span style="font-weight: normal; font-size: 15px;">chance to generate lower: <b><span id="chancetoGL">-</span></b>%</span>
+</h1>
+
+<br><br>
+generating numbers: 0 - <input id="highestInput" style="width: 200px;" value="1000000"></input>
+ <button onClick="changeMax()">change maximum and reset</button>
+<br><br>
+<button style="height: 30px; width: 200px;" onClick="hardReset()">reset</button>
+<script>
+var attempts = 0;
+var maxPossible = 1000000;
+var rand = random(0,maxPossible);
+var highest = rand;
+var lowest = rand;
+var chancetoGH = 0;
+var chancetoGL = 0;
+
+function changeMax() {
+  maxPossible -= maxPossible;
+  maxPossible += document.getElementById("highestInput").value;
+  hardReset();
+}
+
+function hardReset() {
+  attempts -= attempts;
+  rand -= rand;
+  rand += random(0,maxPossible);
+  highest -= highest;
+  lowest -= lowest;
+  highest += random(0,maxPossible);
+  lowest += random(0,maxPossible);
+  console.log("_______________RESET")
+
+}
+
+  document.getElementById("currentnumber").innerHTML = thousands_separators(rand);
+  document.getElementById("highest").innerHTML = thousands_separators(highest);
+  document.getElementById("lowest").innerHTML = thousands_separators(lowest);
+  
+function thousands_separators(num) { var num_parts = num.toString().split(".");num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");return num_parts.join(".");}
+
+
+function random(min, max) { 
+return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+function reset() {
+  rand = random(0,maxPossible);
+  document.getElementById("currentnumber").innerHTML = thousands_separators(rand);
+  
+if (rand > highest) {
+  highest = rand; 
+  document.getElementById("highest").innerHTML = thousands_separators(highest);
+
+chancetoGH = (maxPossible-highest)/maxPossible
+document.getElementById("chancetoGH").innerHTML = thousands_separators(chancetoGH);
+ 
+	   if (highest == maxPossible) {
+	console.log("highest possible number(" +(maxPossible)+") generated in " + attempts + " attempts");
+	  }
+  
+}
+
+if (rand < lowest) {
+  lowest = rand; 
+  document.getElementById("lowest").innerHTML = thousands_separators(lowest);
+  
+chancetoGL = (maxPossible - (maxPossible - lowest))  / maxPossible
+document.getElementById("chancetoGL").innerHTML = thousands_separators(chancetoGL);
+
+  
+   if (lowest == 0) {
+console.log("lowest possible number(0) generated in " + attempts + " attempts");
+  }
+
+
+}
+}
+
+const refresh = setInterval(function() {
+attempts += 1;
+document.getElementById("attempts").innerHTML = thousands_separators(attempts);
+reset();
+}, 0);
+</script>
+</body>
+</html>
