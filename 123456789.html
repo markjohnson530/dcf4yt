@@ -119,9 +119,9 @@ reset();
 
 var timertimer = setInterval(function() {
   if (completed != 2) {
-timer += 1;
-document.getElementById("timer").innerHTML = thousands_separators(timer);
-}}, 1000);
+timer += 0.1;
+document.getElementById("timer").innerHTML = thousands_separators( (Math.round(timer * 100) / 100).toFixed(1));
+}}, 100);
 
 
 
